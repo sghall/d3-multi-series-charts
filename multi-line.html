@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h2 style="padding-left:60px;">Total Funding Rounds in CrunchBase by Quarter</h2>
+    <script src="lib/d3.js"></script>
+    <script>
+      var margin = {top: 20, right: 55, bottom: 30, left: 40},
+          width  = 1000 - margin.left - margin.right,
+          height = 500  - margin.top  - margin.bottom;
+
+      var x = d3.scale.ordinal()
+          .rangeRoundBands([0, width], .1);
+
+      var y = d3.scale.linear()
+          .rangeRound([height, 0]);
+
+      var line = d3.svg.line()
+          .interpolate("cardinal")
+          .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
+          .y(function (d) { return y(d.value); });
+
+      var color = d3.scale.ordinal()
+          .range(["#001c9c","#101b4d","#475003","#9c8305","#d3c47c"]);
+
+      var svg = d3.select("body").append("svg")
+          .attr("width",  width  + margin.left + margin.right)
+          .attr("height", height + margin.top  + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      d3.csv("data/crunchbase-quarters.csv", function (error, data) {
+
+        var labelVar = 'quarter';
+        var varNames = d3.keys(data[0]).filter(function (key) { return key !== labelVar;});
+        color.domain(varNames);
+
+        var seriesData = varNames.map(function (name) {
+          return {
+            name: name,
+            values: data.map(function (d) {
+              return {name: name, label: d[labelVar], value: +d[name]};
+            })
+          };
+        });
+
+        x.domain(data.map(function (d) { return d.quarter; }));
+        y.domain([
+          d3.min(seriesData, function (c) { 
+            return d3.min(c.values, function (d) { return d.value; });
+          }),
+          d3.max(seriesData, function (c) { 
+            return d3.max(c.values, function (d) { return d.value; });
+          })
+        ]);
+
+        var series = svg.selectAll(".series")
+            .data(seriesData)
+          .enter().append("g")
+            .attr("class", "series");
+
+        series.append("path")
+          .attr("class", "line")
+          .attr("d", function (d) { return line(d.values); })
+          .style("stroke", function (d) { return color(d.name); })
+          .style("stroke-width", "4px")
+          .style("fill", "none")
+      });
+    </script>
+  </body>
+</html>
