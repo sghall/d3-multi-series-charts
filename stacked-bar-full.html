@@ -138,7 +138,7 @@
             html : true,
             content: function() { 
               return "Quarter: " + d.label + 
-                     "<br/>Rounds: " + d3.format(",")(d.y1 - d.y0); }
+                     "<br/>Rounds: " + d3.format(",")(d.value ? d.value: d.y1 - d.y0); }
           });
           $(this).popover('show')
         }
