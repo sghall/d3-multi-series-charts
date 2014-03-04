@@ -11,7 +11,7 @@
       .axis line {
         fill: none;
         stroke: #121401;
-        stroke-width: 1px;
+        stroke-width: 2px;
         shape-rendering: crispEdges;
       }
       .point {
@@ -57,9 +57,9 @@
           VIZ.clearAll();
           var chartData = $.extend(true, [], data);
           if (this.id == 'sbar') VIZ.stackBarChart(chartData);
-          if (this.id == 'line') VIZ.lineChart(chartData);
-          if (this.id == 'area') VIZ.stackChart(chartData, 'zero');
-          if (this.id == 'strm') VIZ.stackChart(chartData, 'wiggle');
+          if (this.id == 'line') VIZ.lineChart(data);
+          if (this.id == 'area') VIZ.stackChart(data, 'zero');
+          if (this.id == 'strm') VIZ.stackChart(data, 'wiggle');
         });
       });
 
