@@ -83,7 +83,6 @@
         });
 
         data.forEach(function (d) {
-          var y0 = 0;
           varNames.map(function (name) {
             series[name].values.push({name: name, label: d[labelVar], value: +d[name]});
           });
