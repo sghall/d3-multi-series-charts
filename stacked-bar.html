@@ -26,7 +26,6 @@
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       d3.csv("data/crunchbase-quarters.csv", function (error, data) {
-
         var labelVar = 'quarter';
         var varNames = d3.keys(data[0])
             .filter(function (key) { return key !== labelVar;});
@@ -46,13 +45,15 @@
           d.total = d.mapping[d.mapping.length - 1].y1;
         });
 
+        console.log("prepped data", data);
+
         x.domain(data.map(function (d) { return d.quarter; }));
         y.domain([0, d3.max(data, function (d) { return d.total; })]);
 
-        var selection = svg.selectAll(".state")
+        var selection = svg.selectAll(".series")
             .data(data)
           .enter().append("g")
-            .attr("class", "g")
+            .attr("class", "series")
             .attr("transform", function (d) { return "translate(" + x(d.quarter) + ",0)"; });
 
         selection.selectAll("rect")
