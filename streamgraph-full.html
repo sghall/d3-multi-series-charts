@@ -49,7 +49,7 @@
           .orient("left");
 
       var stack = d3.layout.stack()
-          .offset("silhouette")
+          .offset("wiggle")
           .values(function (d) { return d.values; })
           .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
           .y(function (d) { return d.value; });
@@ -84,7 +84,7 @@
 
         data.forEach(function (d) {
           var y0 = 0;
-          d.mapping = varNames.map(function (name) {
+          varNames.map(function (name) {
             series[name].values.push({name: name, label: d[labelVar], value: +d[name]});
           });
         });

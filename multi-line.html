@@ -31,9 +31,12 @@
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       d3.csv("data/crunchbase-quarters.csv", function (error, data) {
+        console.log("Inital Data", data);
 
         var labelVar = 'quarter';
-        var varNames = d3.keys(data[0]).filter(function (key) { return key !== labelVar;});
+        var varNames = d3.keys(data[0])
+            .filter(function (key) { return key !== labelVar;});
+
         color.domain(varNames);
 
         var seriesData = varNames.map(function (name) {
@@ -44,6 +47,7 @@
             })
           };
         });
+        console.log("seriesData", seriesData);
 
         x.domain(data.map(function (d) { return d.quarter; }));
         y.domain([
@@ -65,7 +69,7 @@
           .attr("d", function (d) { return line(d.values); })
           .style("stroke", function (d) { return color(d.name); })
           .style("stroke-width", "4px")
-          .style("fill", "none")
+          .style("fill", "none");
       });
     </script>
   </body>

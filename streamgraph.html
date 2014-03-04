@@ -17,7 +17,7 @@
           .rangeRound([height, 0]);
 
       var stack = d3.layout.stack()
-          .offset("silhouette")
+          .offset("wiggle")
           .values(function (d) { return d.values; })
           .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
           .y(function (d) { return d.value; });
@@ -38,10 +38,12 @@
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       d3.csv("data/crunchbase-quarters.csv", function (error, data) {
+        console.log("initial data", data);
 
         var labelVar = 'quarter';
         var varNames = d3.keys(data[0])
             .filter(function (key) { return key !== labelVar;});
+
         color.domain(varNames);
 
         var seriesArr = [], series = {};
@@ -52,7 +54,7 @@
 
         data.forEach(function (d) {
           var y0 = 0;
-          d.mapping = varNames.map(function (name) {
+          varNames.map(function (name) {
             series[name].values.push({label: d[labelVar], value: +d[name]});
           });
         });
@@ -60,6 +62,7 @@
         x.domain(data.map(function (d) { return d.quarter; }));
 
         stack(seriesArr);
+        console.log("stacked seriesArr", seriesArr);
 
         y.domain([0, d3.max(seriesArr, function (c) { 
             return d3.max(c.values, function (d) { return d.y0 + d.y; });

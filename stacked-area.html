@@ -42,6 +42,7 @@
         var labelVar = 'quarter';
         var varNames = d3.keys(data[0])
             .filter(function (key) { return key !== labelVar;});
+
         color.domain(varNames);
 
         var seriesArr = [], series = {};
@@ -52,7 +53,7 @@
 
         data.forEach(function (d) {
           var y0 = 0;
-          d.mapping = varNames.map(function (name) {
+          varNames.map(function (name) {
             series[name].values.push({label: d[labelVar], value: +d[name]});
           });
         });

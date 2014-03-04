@@ -28,7 +28,9 @@
       d3.csv("data/crunchbase-quarters.csv", function (error, data) {
 
         var labelVar = 'quarter';
-        var varNames = d3.keys(data[0]).filter(function (key) { return key !== labelVar;});
+        var varNames = d3.keys(data[0])
+            .filter(function (key) { return key !== labelVar;});
+
         color.domain(varNames);
 
         data.forEach(function (d) {
