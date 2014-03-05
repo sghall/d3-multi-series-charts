@@ -55,11 +55,15 @@
 
         $( ".btn" ).click(function() {
           VIZ.clearAll();
-          var chartData = $.extend(true, [], data);
-          if (this.id == 'sbar') VIZ.stackBarChart(chartData);
-          if (this.id == 'line') VIZ.lineChart(data);
-          if (this.id == 'area') VIZ.stackChart(data, 'zero');
-          if (this.id == 'strm') VIZ.stackChart(data, 'wiggle');
+          if (this.id == 'sbar') {
+            VIZ.stackBarChart($.extend(true, [], data));
+          } else if (this.id == 'line') {
+            VIZ.lineChart(data);
+          } else if (this.id == 'area') {
+            VIZ.stackChart(data, 'zero');
+          } else {
+            VIZ.stackChart(data, 'wiggle');
+          } 
         });
       });
 
